@@ -1,0 +1,40 @@
+---
+title:  |  
+  | Using SVMs to Classify Activities 
+  | Analysis
+author: "Tom Stuckey"
+date: "17 Nov 2020" 
+output:
+  pdf_document: 
+    latex_engine: xelatex
+    number_sections: yes 
+    toc: no 
+    fig_caption: yes
+  html_notebook:
+    number_sections: no 
+  word_document: default
+  html_document:
+    df_print: paged
+header-includes: 
+- \usepackage{graphicx}
+- \usepackage{float}
+- \usepackage{array}
+---
+# Setup Chunk
+
+## BE SURE TO SET "absolute_path_to_data_directory" variable !!!
+
+```{r, setup, echo=TRUE, warning=FALSE, message=FALSE}
+
+# knitr::opts_knit$set(root.dir = absolute_path_to_data_directory)
+rm(list=ls())
+library(roxygen2)
+library(tidyverse)
+library(readxl)
+library(olsrr)
+```
+
+```{r, data_load, echo=TRUE, warning=FALSE, message=FALSE}
+t_data <- as_tibble(read.csv("gate drop.csv", header = TRUE, sep=","))
+
+```
