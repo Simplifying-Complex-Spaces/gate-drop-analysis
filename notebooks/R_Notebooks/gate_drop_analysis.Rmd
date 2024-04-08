@@ -1,9 +1,7 @@
 ---
 title:  |  
-  | Using SVMs to Classify Activities 
-  | Analysis
-author: "Tom Stuckey"
-date: "17 Nov 2020" 
+  | Linear Model 
+  | Pro SX and MX 
 output:
   pdf_document: 
     latex_engine: xelatex
@@ -19,12 +17,14 @@ header-includes:
 - \usepackage{graphicx}
 - \usepackage{float}
 - \usepackage{array}
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
-# Setup Chunk
 
-## BE SURE TO SET "absolute_path_to_data_directory" variable !!!
+# Setup
 
-```{r, setup, echo=TRUE, warning=FALSE, message=FALSE}
+```{r, setup, echo=TRUE, warning=FALSE, message=FALSE, include=FALSE}
 
 # knitr::opts_knit$set(root.dir = absolute_path_to_data_directory)
 rm(list=ls())
@@ -32,9 +32,169 @@ library(roxygen2)
 library(tidyverse)
 library(readxl)
 library(olsrr)
+library(DBI)
 ```
+
+Let's connect to the database and get the gate drop times.
 
 ```{r, data_load, echo=TRUE, warning=FALSE, message=FALSE}
-t_data <- as_tibble(read.csv("gate drop.csv", header = TRUE, sep=","))
+db_path <- './_data/gate_drop.db'
+query_path <-  './notebooks/R_Notebooks/main_query.sql'
+convenience_routines <- './notebooks/R_Notebooks/convenience_routines.R'
+source(convenience_routines, local = knitr::knit_global())
 
+src_db <- DBI::dbConnect(RSQLite::SQLite(),db_path)
+main_query <- paste(readLines(query_path), collapse='\n')
+main_dat <- DBI::dbGetQuery(conn = src_db, statement = main_query)
+DBI::dbDisconnect(conn = src_db)
 ```
+
+This analysis includes `r nrow(main_dat)` separate observations from `r main_dat |> select(Date) |> distinct() |> nrow()` Pro SX rounds.
+
+\newpage
+
+# Histograms
+
+Now, let's do some fundamental analysis to get the margin of error for all gate drop times.
+
+```{r, data_prep, echo=TRUE, message=FALSE, warning=FALSE}
+t_data <- main_dat |>  tibble::as_tibble()
+
+# Drop extra columns we don't need to keep 
+t_data <- t_data |> dplyr::select (-one_of(c("row_id","Date", "Venue", "Round","Comments")))
+
+# make the logistic variables numeric and replace NA with 0
+t_data <- t_data |> dplyr::mutate_if(is.logical, as.numeric)
+t_data <- t_data |> dplyr::mutate_all(funs(replace_na(.,0)))
+
+t_moe_factor <- qt(0.025, nrow(t_data), lower.tail = FALSE)
+t_moe <- t_moe_factor * sd(t_data$`sec to drop`) / sqrt(nrow(t_data))
+```
+
+
+```{r, data_visualizations, echo=TRUE, message=FALSE, warning=FALSE}
+null_model <- mean(t_data$`sec to drop`)
+lower_ci <- null_model - t_moe 
+upper_ci <- null_model + t_moe
+
+gp1 <- ggplot(data = t_data, aes(x= `sec to drop`))+geom_histogram(binwidth = 0.25,color="light blue", fill="light blue") +
+    geom_vline(aes(xintercept = null_model), color = "dark blue")+
+    geom_vline(aes(xintercept = lower_ci), color = "dark blue", linetype = "dashed")+ 
+    geom_vline(aes(xintercept = upper_ci), color = "dark blue", linetype = "dashed")+ 
+    labs(title = "Distribution of Elapsed Seconds", 
+         subtitle = paste("after 30sec board goes sideways",
+                          "\nnull model estimate:", round(mean(t_data$`sec to drop`), 2),
+                          "\nMOE (margin of error) = +-", round(t_moe, 2))) + scale_x_continuous()
+gp1
+```
+
+\newpage
+
+# MLR Model
+
+Let's build a linear model to predict the gate drop times.
+
+```{r, do_analysis, echo=TRUE, message=FALSE, warning=FALSE}
+t_data_src_cols <- colnames(t_data)
+t_data_src_cols <- t_data_src_cols[!t_data_src_cols == 'sec to drop'] #stage this for later when we make predictions
+
+t_model <- lm(`sec to drop` ~ . , data = t_data) 
+print(summary(t_model))
+
+t_beta <- round(coefficients(t_model),2)
+print(t_beta)
+```
+
+$$
+\vspace{0.5cm}
+$$ Here's our fitted model:
+
+$\hat{y}$ = `r t_beta[1]` + `r t_beta[2]`$x_1$ + `r t_beta[3]`$x_2$ +
+`r t_beta[4]`$x_3$ + `r t_beta[5]`$x_4$ + `r t_beta[6]`$x_5$ +
+`r t_beta[7]`$x_6$ + `r t_beta[8]`$x_7$ + `r t_beta[9]`$x_8$ +
+`r t_beta[10]` $x_9$
+
+$$
+\newline
+\vspace{0.25cm} 
+$$
+
+\newpage
+
+## Model Checking
+
+### Normalcy
+
+Let's do some basic model checking. First, let's check to see if the
+data follows the normal distribution. We can do this by evaluating the
+ranked residuals against the theoretical ideal corresponding point in
+the normal cumulative distribution function. If the ranked residuals
+generally follow the theoretical line, then we can declare the data
+follows the normal distribution.
+
+```{r, normalcy_check, echo=TRUE, message=FALSE, warning=FALSE}
+unscaled_residual <- tibble(t_model$residuals)
+
+t_data <- t_data |>bind_cols(unscaled_residual)
+t_length <- length(t_data)
+colnames(t_data)[t_length] <- 'unscaled_residual'
+
+t_qq_plot <- ggplot(data = t_data, aes(sample = unscaled_residual)) +stat_qq() + stat_qq_line() + 
+    labs(title =  "Model Check 1", subtitle = "Normalcy of sample residuals vs. theoretical", y = "sample", x = "theoretical")
+t_qq_plot
+```
+
+These gate drop times are close to the theoretical normal distribution.
+However, it is worth noting the data is a little light-tailed on the
+lower-valued residuals and a little heavy-tailed on the higher-valued
+residuals. It's unlikely, though this will negatively impact our
+predictions.
+
+\newpage
+
+### Residuals
+
+```{r, residual_check, echo=TRUE, message=FALSE, warning=FALSE}
+t_predicted_response <- tibble(t_model$fitted.values)
+highbound <- 2 * sd(t_data$unscaled_residual)
+lowbound <- -2 * sd(t_data$unscaled_residual)
+
+t_data <- t_data |>bind_cols(t_predicted_response)
+t_length <- length(t_data)
+colnames(t_data)[t_length]  <- 't_prediction'
+q <- ggplot(data = t_data, aes(y = `unscaled_residual`, x = `t_prediction` )) + geom_point(size=1) + 
+    labs(title =  "Model Check 2", subtitle = "General form residuals vs. predictions", y = "Unscaled Residuals", x = "Prediction") + geom_hline(yintercept = 0) +
+    geom_ribbon(aes(ymin = lowbound, ymax = highbound), alpha = 0.1)
+q
+```
+
+Above, the shaded region indicates $\pm2\sigma$ of the unscaled
+residuals against each of the predictions. Given that most of the
+predictions fit within the shaded area, we can say this model passes
+this check as well.
+
+\newpage
+
+# Predictions
+
+Let's make some predictions for the 250 and 450 main events!
+
+```{r, make_predictions, echo=TRUE, message=FALSE, warning=FALSE}
+pred_250_main_SX_east <- c(0,1,0,0,0,0,0,0,1)
+pred_250_main_SX_west <- c(0,0,1,0,0,0,0,0,1)
+pred_450_main_SX <- c(0,0,0,1,0,0,0,0,1)
+p_dat <- tibble()
+p_dat <- rbind(p_dat, pred_250_main_SX_east, pred_250_main_SX_west, pred_450_main_SX)
+names(p_dat) <- t_data_src_cols
+
+a_prediction <- predict(t_model, p_dat, interval = 'confidence')
+```
+
+| Class       | Estimate                       | Lower Bound                    | Upper Bound                    |
+|----------------|-------------------|-------------------|-------------------|
+| 250 SX East | `r round(a_prediction[1,1],2)` | `r round(a_prediction[1,2],2)` | `r round(a_prediction[1,3],2)` |
+| 250 SX West | `r round(a_prediction[2,1],2)` | `r round(a_prediction[2,2],2)` | `r round(a_prediction[2,3],2)` |
+| 450 SX      | `r round(a_prediction[3,1],2)` | `r round(a_prediction[3,2],2)` | `r round(a_prediction[3,3],2)` |
+|             |                                |                                |                                |
+
+: Main Event Predictions

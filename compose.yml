@@ -2,7 +2,7 @@ version: '3'
 
 services:
   rstudio:
-    image: docker.io/tstuckey303/scs-analysis-r:1.0
+    image: docker.io/tstuckey303/scs-analysis-r:1.1
     container_name: analysis_container_r
     ports:
       - "8787:8787"
@@ -11,5 +11,5 @@ services:
     volumes:
       - "./.config/rstudio:/home/rstudio/.config/rstudio"
       - "./_data:/home/rstudio/_data"
-      - "./01_tidy_data_svc/R_Notebook:/home/rstudio/R_Notebook"
+      - "./notebooks/R_Notebooks:/home/rstudio/notebooks/R_Notebooks"
     restart: unless-stopped

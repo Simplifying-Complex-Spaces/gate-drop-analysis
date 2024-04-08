@@ -40,12 +40,11 @@
     "posix_terminal_shell": "bash",
     "help_font_size_points": 12,
     "jobs_tab_visibility": "shown",
-    "python_type": "system",
-    "python_version": "3.9.6",
-    "python_path": "/usr/local/bin/python3.9",
     "highlight_r_function_calls": true,
     "rainbow_parentheses": true,
     "initial_working_directory": "~",
     "global_theme": "alternate",
-    "font_size_points": 11
+    "font_size_points": 11,
+    "show_hidden_files": true,
+    "knit_working_dir": "project"
 }
