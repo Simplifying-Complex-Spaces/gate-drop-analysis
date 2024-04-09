@@ -92,7 +92,7 @@ gp1
 
 # MLR Model
 
-Let's build a linear model to predict the gate drop times.
+Let's build a linear model to predict the gate drop times
 
 ```{r, do_analysis, echo=TRUE, message=FALSE, warning=FALSE}
 t_data_src_cols <- colnames(t_data)
@@ -113,6 +113,9 @@ $\hat{y}$ = `r t_beta[1]` + `r t_beta[2]`$x_1$ + `r t_beta[3]`$x_2$ +
 `r t_beta[4]`$x_3$ + `r t_beta[5]`$x_4$ + `r t_beta[6]`$x_5$ +
 `r t_beta[7]`$x_6$ + `r t_beta[8]`$x_7$ + `r t_beta[9]`$x_8$ +
 `r t_beta[10]` $x_9$
+
+So, translating the coefficients, we can determine the following. First, looking at the y_intercept, we can see that, without any other information, we would predict the gate to drop in `r t_beta[1]` seconds. For all of our features $\beta_2$ - $\beta_{10}$, they are indicator random variables (aka characteristic random variables) where we have encoded the race classes `SX Futures', '250 SX East', '250 SX West', '450 SX', '450 MX', and '250 MX.' Further we have applied the convention to the 'Heat', 'LCQ', and 'Final' variables.
+
 
 $$
 \newline
