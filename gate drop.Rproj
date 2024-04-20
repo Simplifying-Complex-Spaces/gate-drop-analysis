@@ -11,3 +11,7 @@ Encoding: UTF-8
 
 RnwWeave: Sweave
 LaTeX: XeLaTeX
+
+PythonType: system
+PythonVersion: 3.12.2
+PythonPath: /Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12
