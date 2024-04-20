@@ -125,7 +125,7 @@ encoded the race classes \`SX Futures', '250 SX East', '250 SX West',
 to the 'Heat', 'LCQ', and 'Final' variables. In summary:
 
 | Beta                  | Value          | Discussion                                                                  |
-|-----------------------|----------------|-----------------------------------------------------------------------------|
+|---------------|---------------|-------------------------------------------|
 | $\beta_1$ SX Futures  | `r t_beta[2]`  | This indicates the SX futures gate drops are slightly longer.               |
 | $\beta_2$ 250 SX East | `r t_beta[3]`  | This indicates 250 SX East gate drops have no effect on the gate drop time. |
 | $\beta_3$ 250 SX West | `r t_beta[4]`  | This indicates the 250 SX West gate drops are slightly longer.              |
