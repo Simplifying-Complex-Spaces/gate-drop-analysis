@@ -158,6 +158,10 @@ cython_debug/
 .Rproj.user/
 *nb.html
 
+# Data
+# Keep database files out of version control, maintain these elsewhere 
+*.db
+
 # Pandoc related
 *.aux
 *.tex
