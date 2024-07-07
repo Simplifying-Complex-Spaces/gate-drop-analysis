@@ -1,1 +1,1 @@
-SELECT * FROM  drop_times
+SELECT * FROM  drop_times;

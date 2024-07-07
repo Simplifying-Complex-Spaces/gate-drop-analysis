@@ -3,16 +3,16 @@ title:  |
   | Linear Model 
   | Pro SX and MX 
 output:
+  html_document:
+    df_print: paged
+  html_notebook:
+    number_sections: no 
+  word_document: default
   pdf_document: 
     latex_engine: xelatex
     number_sections: yes 
     toc: no 
     fig_caption: yes
-  html_notebook:
-    number_sections: no 
-  word_document: default
-  html_document:
-    df_print: paged
 header-includes: 
 - \usepackage{graphicx}
 - \usepackage{float}
@@ -41,8 +41,22 @@ Let's connect to the database and get the gate drop times.
 db_path <- './_data/gate_drop.db'
 query_path <-  './notebooks/R_Notebooks/main_query.sql'
 convenience_routines <- './notebooks/R_Notebooks/convenience_routines.R'
+url_db<- 'https://storage.googleapis.com/gate-drop-storage.simplifyingcomplexspaces.com/gate_drop.db'
+ref_md5 <- 'f8702809c5f5ade41cbb352accd5653b'
+    
 source(convenience_routines, local = knitr::knit_global())
 
+# Check if the local db is present; if not,  download it
+if (!file.exists(db_path)){
+    getRemoteDBfile(url_db, db_path)
+}
+# Check the hash of the db file; if matches what's specified in the notebook, proceed; if not, download from remote  
+if (tools::md5sum(db_path) != ref_md5){
+    getRemoteDBfile(url_db, db_path)
+}
+
+
+getRemoteDBfile(url_db, db_path_alt)
 src_db <- DBI::dbConnect(RSQLite::SQLite(),db_path)
 main_query <- paste(readLines(query_path), collapse='\n')
 main_dat <- DBI::dbGetQuery(conn = src_db, statement = main_query)
@@ -129,7 +143,7 @@ to the 'Heat', 'LCQ', and 'Final' variables. In summary:
 | $\beta_1$ SX Futures  | `r t_beta[2]`  | This indicates the SX futures gate drops are slightly longer.               |
 | $\beta_2$ 250 SX East | `r t_beta[3]`  | This indicates 250 SX East gate drops have no effect on the gate drop time. |
 | $\beta_3$ 250 SX West | `r t_beta[4]`  | This indicates the 250 SX West gate drops are slightly longer.              |
-| $\beta_4$ 450 SX      | `r t_beta[5]`  | This indicates 450 SX gate drops are subtley quicker.                       |
+| $\beta_4$ 450 SX      | `r t_beta[5]`  | This indicates 450 SX gate drops have no effect on the gate drops.          |
 | $\beta_5$ 450 MX      | `r t_beta[6]`  | No data for 450 Nationals, so no effects.                                   |
 | $\beta_6$ 250 MX      | `r t_beta[7]`  | No data for 250 Nationals, so no effects.                                   |
 | $\beta_7$ Heat        | `r t_beta[8]`  | This indicates the gates drops for heat races are quicker.                  |
@@ -215,7 +229,7 @@ a_prediction <- predict(t_model, p_dat, interval = 'confidence')
 ```
 
 | Class       | Estimate                       | Lower Bound                    | Upper Bound                    |
-|------------------|------------------|------------------|------------------|
+|----------------|-------------------|-------------------|-------------------|
 | 250 SX East | `r round(a_prediction[1,1],2)` | `r round(a_prediction[1,2],2)` | `r round(a_prediction[1,3],2)` |
 | 250 SX West | `r round(a_prediction[2,1],2)` | `r round(a_prediction[2,2],2)` | `r round(a_prediction[2,3],2)` |
 | 450 SX      | `r round(a_prediction[3,1],2)` | `r round(a_prediction[3,2],2)` | `r round(a_prediction[3,3],2)` |
