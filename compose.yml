@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   rstudio:
     image: docker.io/tstuckey303/scs-analysis-r:1.1
