@@ -158,6 +158,9 @@ cython_debug/
 .Rproj.user/
 *nb.html
 
+# HTML output
+*.html
+
 # Data
 # Keep database files out of version control, maintain these elsewhere 
 *.db
