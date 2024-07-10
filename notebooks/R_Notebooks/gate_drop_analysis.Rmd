@@ -55,8 +55,6 @@ if (tools::md5sum(db_path) != ref_md5){
     getRemoteDBfile(url_db, db_path)
 }
 
-
-getRemoteDBfile(url_db, db_path_alt)
 src_db <- DBI::dbConnect(RSQLite::SQLite(),db_path)
 main_query <- paste(readLines(query_path), collapse='\n')
 main_dat <- DBI::dbGetQuery(conn = src_db, statement = main_query)

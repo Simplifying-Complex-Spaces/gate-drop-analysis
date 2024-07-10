@@ -1,7 +1,3 @@
-# TODO  check to see if we have the most current version of the database
-
-# TODO create bootstrap linear regression function
-
 #' Get the database file
 #' 
 #' @param t_url string of the URL with the binary database file
