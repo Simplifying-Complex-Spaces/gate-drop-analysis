@@ -161,6 +161,9 @@ cython_debug/
 # HTML output
 *.html
 
+# PDF output
+*.pdf
+
 # Data
 # Keep database files out of version control, maintain these elsewhere 
 *.db
