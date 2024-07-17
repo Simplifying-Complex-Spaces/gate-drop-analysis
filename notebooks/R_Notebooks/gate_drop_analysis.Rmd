@@ -38,7 +38,7 @@ library(DBI)
 Let's connect to the database and get the gate drop times.
 
 ```{r, data_load, echo=TRUE, warning=FALSE, message=FALSE}
-db_name <- 'gate_drop_001.db'
+db_name <- 'gate_drop_5653b.db'
 db_path <- paste0('./_data/',db_name)
 query_path <-  './notebooks/R_Notebooks/main_query.sql'
 convenience_routines <- './notebooks/R_Notebooks/convenience_routines.R'
