@@ -158,6 +158,7 @@ cython_debug/
 *.Rproj
 .Rproj.user/
 *nb.html
+*.html
 
 # HTML output
 *.html
