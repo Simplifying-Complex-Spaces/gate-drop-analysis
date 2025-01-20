@@ -155,6 +155,7 @@ cython_debug/
 .idea/
 
 # R and RNotebook
+*.Rproj
 .Rproj.user/
 *nb.html
 
