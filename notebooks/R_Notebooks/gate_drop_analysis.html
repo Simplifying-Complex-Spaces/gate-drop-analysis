@@ -1638,9 +1638,7 @@ convenience_routines &lt;- here(&#39;notebooks&#39;, &#39;R_Notebooks&#39;, &#39
 url_db&lt;- paste0(&#39;https://storage.googleapis.com/gate-drop-storage.simplifyingcomplexspaces.com/&#39;, db_name)
 ref_md5 &lt;- &#39;f8702809c5f5ade41cbb352accd5653b&#39;
     
-print(here())</code></pre>
-<pre><code>## [1] &quot;/home/rstudio&quot;</code></pre>
-<pre class="r"><code>source(convenience_routines, local = knitr::knit_global())
+source(convenience_routines, local = knitr::knit_global())
 
 # Check if the local db is present; if not,  download it
 if (!file.exists(db_path)){
