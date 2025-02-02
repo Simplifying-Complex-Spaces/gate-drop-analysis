@@ -7,6 +7,7 @@ services:
     environment:
       - DISABLE_AUTH=true
     volumes:
+      - "./.here:/home/rstudio/.here"
       - "./.config/rstudio:/home/rstudio/.config/rstudio"
       - "./_data:/home/rstudio/_data"
       - "./notebooks/R_Notebooks:/home/rstudio/notebooks/R_Notebooks"
