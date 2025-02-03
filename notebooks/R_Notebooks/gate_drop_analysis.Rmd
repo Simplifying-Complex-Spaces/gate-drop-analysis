@@ -40,11 +40,8 @@ Let's connect to the database and get the gate drop times.
 
 ```{r, data_load, echo=TRUE, warning=FALSE, message=FALSE}
 db_name <- 'gate_drop_5653b.db'
-#db_path <- paste0('./_data/',db_name)
 db_path <- here('_data',db_name) 
-#query_path <-  './notebooks/R_Notebooks/main_query.sql'
 query_path <-  here('notebooks', 'R_Notebooks','main_query.sql')
-#convenience_routines <- './notebooks/R_Notebooks/convenience_routines.R'
 convenience_routines <- here('notebooks', 'R_Notebooks', 'convenience_routines.R')
 url_db<- paste0('https://storage.googleapis.com/gate-drop-storage.simplifyingcomplexspaces.com/', db_name)
 ref_md5 <- 'f8702809c5f5ade41cbb352accd5653b'
