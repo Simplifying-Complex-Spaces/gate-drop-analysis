@@ -19,7 +19,7 @@ A pre-generated PDF of the report is [here](./notebooks/R_Notebooks/gate_drop_an
 -   Start up the analysis environment:
 
 ``` zsh
-docker compose -f compose.yml up
+docker compose -f compose-scs.yml up
 ```
 
 -   Navigate to the local web interface for the application: [localhost:8787](http://localhost:8787)
@@ -34,5 +34,5 @@ docker compose -f compose.yml up
 -   Shutdown the analysis environment:
 
 ``` zsh
-docker compose -f compose.yml down 
+docker compose -f compose-scs.yml down 
 ```
