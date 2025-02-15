@@ -1629,11 +1629,8 @@ Pro SX and MX</div></h1>
 <h1>Setup</h1>
 <p>Let’s connect to the database and get the gate drop times.</p>
 <pre class="r"><code>db_name &lt;- &#39;gate_drop_5653b.db&#39;
-#db_path &lt;- paste0(&#39;./_data/&#39;,db_name)
 db_path &lt;- here(&#39;_data&#39;,db_name) 
-#query_path &lt;-  &#39;./notebooks/R_Notebooks/main_query.sql&#39;
 query_path &lt;-  here(&#39;notebooks&#39;, &#39;R_Notebooks&#39;,&#39;main_query.sql&#39;)
-#convenience_routines &lt;- &#39;./notebooks/R_Notebooks/convenience_routines.R&#39;
 convenience_routines &lt;- here(&#39;notebooks&#39;, &#39;R_Notebooks&#39;, &#39;convenience_routines.R&#39;)
 url_db&lt;- paste0(&#39;https://storage.googleapis.com/gate-drop-storage.simplifyingcomplexspaces.com/&#39;, db_name)
 ref_md5 &lt;- &#39;f8702809c5f5ade41cbb352accd5653b&#39;
