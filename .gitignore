@@ -2,8 +2,6 @@
 **/.DS_Store
 .AppleDouble
 .LSOverride
-.Rhistory
-.swp
 
 # Icon must ends with two \r.
 Icon
@@ -123,6 +121,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.config
 
 # Spyder project settings
 .spyderproject
@@ -156,31 +155,19 @@ cython_debug/
 .idea/
 
 # R and RNotebook
-*.Rproj
+.Rhistory
+*.Rproj/
 .Rproj.user/
-*nb.html
+*.aux
 *.html
-
-# HTML output
-*.html
-
-# PDF output
 *.pdf
 
-# Data
-# Keep database files out of version control, maintain these elsewhere 
-*.db
-
-# Pandoc related
-*.aux
-*.tex
-    
 # CMake
 cmake-build-*/
 
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
-
+/u
 # File-based project format
 *.iws
 
@@ -201,3 +188,6 @@ fabric.properties
 
 # Google Slides
 *.gslides
+
+# Databases
+*.db

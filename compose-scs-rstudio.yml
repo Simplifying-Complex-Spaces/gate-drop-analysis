@@ -17,11 +17,11 @@ services:
     image: docker.io/linuxserver/sqlitebrowser:3.12.2
     container_name: analysis_container_sqlite
     ports:
-    # 3000 for desktop GUI
-    # 3001 for HTTPS GUI 
+      # 3000 for desktop GUI
+      # 3001 for HTTPS GUI
       - "3000:3000"
       - "3001:3001"
     volumes:
       - "./.config/sqlitebrowser:/config"
-      - "./_data:/config/data"
+      -  "./_data:/config/data"
     restart: unless-stopped 
