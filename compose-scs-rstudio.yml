@@ -3,7 +3,7 @@ services:
     image: docker.io/tstuckey303/scs-analysis-r:1.5
     container_name: analysis_container_r
     ports:
-      - "8787:8787"
+      - "7320:8787"
     environment:
       - DISABLE_AUTH=true
     volumes:
@@ -17,10 +17,7 @@ services:
     image: docker.io/linuxserver/sqlitebrowser:3.12.2
     container_name: analysis_container_sqlite
     ports:
-      # 3000 for desktop GUI
-      # 3001 for HTTPS GUI
-      - "3000:3000"
-      - "3001:3001"
+      - "7322:3000"
     volumes:
       - "./.config/sqlitebrowser:/config"
       -  "./_data:/config/data"
