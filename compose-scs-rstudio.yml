@@ -1,6 +1,6 @@
 services:
   rstudio:
-    image: docker.io/tstuckey303/scs-analysis-r:1.5
+    image: docker.io/tstuckey303/scs-analysis-r:1.9
     container_name: analysis_container_r
     ports:
       - "7320:8787"
