@@ -161,6 +161,7 @@ cython_debug/
 *.aux
 *.html
 *.pdf
+*.docx
 
 # CMake
 cmake-build-*/
