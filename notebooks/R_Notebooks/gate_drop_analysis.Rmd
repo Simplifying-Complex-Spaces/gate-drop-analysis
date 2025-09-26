@@ -26,6 +26,8 @@ editor_options:
 
 ```{r, setup, echo=TRUE, warning=FALSE, message=FALSE, include=FALSE}
 rm(list=ls())
+here::i_am('notebooks/R_Notebooks/gate_drop_analysis.Rmd')
+
 library(roxygen2)
 library(tidyverse)
 library(readxl)
