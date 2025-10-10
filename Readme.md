@@ -8,8 +8,6 @@ This repository contains the setup to analyze the gate drop times for Pro SX/MX.
 
 ------------------------------------------------------------------------
 
-A pre-generated PDF of the report is [here](./notebooks/R_Notebooks/gate_drop_analysis.pdf)
-
 ## Setup
 
 -   Download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/) for the Docker engine and Docker Compose; Docker Desktop is [free](https://www.docker.com/pricing/) for personal use\
