@@ -1,5 +1,5 @@
 # Estimating the ET for the Gate Drop in Pro SX/MX  
-This repository contains the setup to analyze the gate drop times for Pro SX/MX. With data maintained in a SQLite database, the analysis in a RMarkdown file, and the entire ecosystem within a Docker container, anyone can verify the results with the exact same tools. And they can also extend it for new purposes.
+This repository contains the setup to analyze the gate drop times for Pro SX/MX. With data maintained in a SQLite database, the analysis in a RMarkdown file, and the entire ecosystem within a Docker container, anyone can verify the results with the exact same tools. And they can also extend it for new purposes. 
 
 ------------------------------------------------------------------------
 
