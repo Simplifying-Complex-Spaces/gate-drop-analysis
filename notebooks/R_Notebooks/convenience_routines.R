@@ -1,3 +1,10 @@
+db_name <- '20250524_gate_drop.db'
+db_path <- here('_data',db_name) 
+query_path <-  here('notebooks', 'R_Notebooks','main_query.sql')
+
+url_db<- paste0('https://storage.googleapis.com/gate-drop-storage.simplifyingcomplexspaces.com/', db_name)
+ref_md5 <- 'f8702809c5f5ade41cbb352accd5653b'
+
 #' Get the database file
 #' 
 #' @param t_url string of the URL with the binary database file

@@ -39,13 +39,7 @@ library(here)
 Let's connect to the database and get the gate drop times.
 
 ```{r, data_load, echo=TRUE, warning=FALSE, message=FALSE}
-db_name <- '20250524_gate_drop.db'
-db_path <- here('_data',db_name) 
-query_path <-  here('notebooks', 'R_Notebooks','main_query.sql')
 convenience_routines <- here('notebooks', 'R_Notebooks', 'convenience_routines.R')
-url_db<- paste0('https://storage.googleapis.com/gate-drop-storage.simplifyingcomplexspaces.com/', db_name)
-ref_md5 <- 'f8702809c5f5ade41cbb352accd5653b'
-    
 source(convenience_routines, local = knitr::knit_global())
 
 # Check if the local db is present; if not,  download it
