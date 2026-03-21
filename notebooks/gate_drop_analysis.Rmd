@@ -3,15 +3,15 @@ title:  |
   | Linear Model 
   | Pro SX and MX 
 output:
-  html_document:
-    df_print: paged
-  html_notebook:
-    number_sections: no 
   pdf_document: 
     latex_engine: xelatex
     number_sections: yes 
     toc: no 
     fig_caption: yes
+  html_notebook:
+    number_sections: no 
+  html_document:
+    df_print: paged
   word_document: default
 header-includes: 
 - \usepackage{graphicx}
