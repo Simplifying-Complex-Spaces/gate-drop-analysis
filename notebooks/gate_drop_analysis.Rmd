@@ -25,7 +25,7 @@ editor_options:
 # Setup
 ```{r, setup, echo=TRUE, warning=FALSE, message=FALSE, include=FALSE}
 rm(list=ls())
-here::i_am('notebooks/R_Notebooks/gate_drop_analysis.Rmd')
+here::i_am('notebooks/gate_drop_analysis.Rmd')
 
 library(roxygen2)
 library(tidyverse)
@@ -38,7 +38,7 @@ library(here)
 Let's connect to the database and get the gate drop times.
 
 ```{r, data_load, echo=TRUE, warning=FALSE, message=FALSE}
-convenience_routines <- here('notebooks', 'R_Notebooks', 'convenience_routines.R')
+convenience_routines <- here('notebooks', 'convenience_routines.R')
 source(convenience_routines, local = knitr::knit_global())
 
 # Check if the local db is present; if not,  download it
