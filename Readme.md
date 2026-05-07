@@ -8,7 +8,7 @@ This repository contains the setup to analyze the gate drop times for Pro SX/MX.
 ------------------------------------------------------------------------
 
 ## Setup  
--   Download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/) for the Docker engine and Docker Compose; Docker Desktop is [free](https://www.docker.com/pricing/) for personal use\
+-   Download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/) for the Docker engine and Docker Compose; Docker Desktop is [free](https://www.docker.com/pricing/) for personal use
 -   Clone (with a git client) or download this repository
 -   Make sure `Docker Desktop` is running on your system
 -   Open a terminal / command line and navigate to where you cloned the directory
